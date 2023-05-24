@@ -25,7 +25,7 @@ jobs:
       - run:
          name: Run detect-scan
          command: |
-          detect-secrets scan test_data/ --all-files > .secrets.baseline
+          detect-secrets scan ./test_data/ --all-files
 
 workflows:
   version: 2
