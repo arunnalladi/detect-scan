@@ -1,12 +1,12 @@
 version: 2.1
 
 orbs:
-  linter: reactioncommerce/linter@0.0.1
+  secrets-scanner-orb: atul/secrets-scanner-orb@0.0.2
 
 jobs:
   detect-scan:
     docker:
-      - image: oxsecurity/megalinter:v6
+      - image: circleci/python:3.9
     working_directory: /tmp/workspace
     environment:
       ENV_FILE: /tmp/workspace/
