@@ -1,0 +1,34 @@
+version: 2.1
+
+orbs:
+  linter: reactioncommerce/linter@0.0.1
+
+jobs:
+  detect-scan:
+    docker:
+      - image: oxsecurity/megalinter:v6
+    working_directory: /tmp/workspace
+    environment:
+      ENV_FILE: /tmp/workspace/
+      DOCKER_BUILDKIT: "1"
+      BUILDKIT_PROGRESS: plain
+    steps:
+      - checkout
+      - attach_workspace:
+         at: /tmp/workspace
+
+      - run:
+          name: Install detect-scan
+          command: |
+           pip install detect-secrets
+         
+      - run:
+         name: Run detect-scan
+         command: |
+          detect-secrets scan test_data/ --all-files > .secrets.baseline
+
+workflows:
+  version: 2
+  detect-secrets:
+    jobs:
+      - detect-scan          
